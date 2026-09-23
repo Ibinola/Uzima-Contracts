@@ -1,0 +1,23 @@
+name: Template Compatibility Gate
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  check-template-compatibility:
+    name: Check Template Compatibility
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Verify Cargo.toml structure & Soroban dependencies
+        run: |
+          echo "Checking Soroban contract template compatibility..."
+          cargo check --manifest-path Cargo.toml
